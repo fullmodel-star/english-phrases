@@ -1,0 +1,7 @@
+node_modules/
+app/index.html
+app/manifest.json
+app/sw.js
+app/icon.svg
+*.pyc
+__pycache__/
