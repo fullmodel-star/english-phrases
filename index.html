@@ -710,5 +710,136 @@ ov.addEventListener('click',function(e){if(e.target===ov)close();});
 hb.addEventListener('click',show);
 try{if(!localStorage.getItem(K))setTimeout(show,500);}catch(e){setTimeout(show,500);}
 })();</script>
+<script>/*REVIEWUI*/(function(){if(window.__rvc)return;window.__rvc=1;
+var R=window.EngReview;if(!R){return;}
+var MYID=R.app.id, ISHUB=(MYID==='english-hub');
+var NSMAP={"english1200": {"name": "國小1200單字", "url": "https://fullmodel-star.github.io/english1200/"}, "english2000": {"name": "國中2000單字", "url": "https://fullmodel-star.github.io/english2000/"}, "english6000": {"name": "高中6000單字", "url": "https://fullmodel-star.github.io/english6000/"}, "gsat-core": {"name": "學測必考單字", "url": "https://fullmodel-star.github.io/gsat-core/"}, "toeic-vocab": {"name": "多益單字", "url": "https://fullmodel-star.github.io/toeic-vocab/"}, "toefl-vocab": {"name": "托福單字", "url": "https://fullmodel-star.github.io/toefl-vocab/"}, "englishS": {"name": "國中英語句型", "url": "https://fullmodel-star.github.io/englishS/"}, "eng17": {"name": "國中英語文法", "url": "https://fullmodel-star.github.io/englishreading/"}, "enghs": {"name": "高中英語文法", "url": "https://fullmodel-star.github.io/hs-grammar/"}, "english-phrases": {"name": "英語片語", "url": "https://fullmodel-star.github.io/english-phrases/"}, "cap-english": {"name": "國中會考複習", "url": "https://fullmodel-star.github.io/cap-english/"}, "gsat-english": {"name": "學測複習", "url": "https://fullmodel-star.github.io/gsat-english/"}, "cap-qbank": {"name": "會考英語題庫", "url": "https://fullmodel-star.github.io/cap-qbank/"}, "gsat-qbank": {"name": "學測英語題庫", "url": "https://fullmodel-star.github.io/gsat-qbank/"}, "travel-english": {"name": "旅遊英文", "url": "https://fullmodel-star.github.io/travel-english/"}, "family-english": {"name": "家庭生活英語", "url": "https://fullmodel-star.github.io/family-english/"}, "campus-english": {"name": "校園生活英語", "url": "https://fullmodel-star.github.io/campus-english/"}, "errand-english": {"name": "生活辦事英文", "url": "https://fullmodel-star.github.io/errand-english/"}, "social-english": {"name": "社交英文", "url": "https://fullmodel-star.github.io/social-english/"}};
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function speak(t){try{var u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+var L=['A','B','C','D','E','F'],NOW=Date.now();
+var css=''
++'.rvc-fab{position:fixed;left:calc(12px + env(safe-area-inset-left));bottom:calc(124px + env(safe-area-inset-bottom));z-index:2147482500;height:40px;border-radius:20px;border:0;background:#6d28d9;color:#fff;font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(109,40,217,.4);padding:0 14px;font-family:inherit;display:none}'
++'.rvc-fab .bdg{background:#fff;color:#6d28d9;border-radius:10px;padding:0 6px;margin-left:6px;font-size:12px}'
++'.rvc-card{background:linear-gradient(135deg,#6d28d9,#9333ea);color:#fff;border-radius:20px;padding:16px 18px;margin:18px 0 6px;box-shadow:0 10px 26px rgba(109,40,217,.28)}'
++'.rvc-card h3{margin:0 0 3px;font-size:16px}.rvc-card .rvc-sub{font-size:12.5px;opacity:.92;margin-bottom:12px}'
++'.rvc-approw{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.15);border-radius:12px;padding:10px 12px;margin-bottom:8px;text-decoration:none;color:#fff}'
++'.rvc-approw .an{font-weight:800;font-size:14px}.rvc-approw .am{font-size:11.5px;opacity:.9}.rvc-approw .ag{margin-left:auto;font-weight:800;font-size:12.5px}'
++'.rvc-none{font-size:13px;opacity:.9;line-height:1.8}'
++'.rvc-ov{position:fixed;inset:0;background:rgba(20,20,32,.6);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);z-index:2147483600;display:flex;align-items:flex-end;justify-content:center}'
++'.rvc-sheet{background:#f5f7fb;color:#1e2a48;width:100%;max-width:600px;max-height:92vh;border-radius:22px 22px 0 0;overflow:auto;padding:16px 16px calc(24px + env(safe-area-inset-bottom));font-family:-apple-system,\"PingFang TC\",\"Microsoft JhengHei\",sans-serif}'
++'.rvc-hd{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:#f5f7fb;padding:4px 0 10px;z-index:2}'
++'.rvc-hd h2{font-size:18px;margin:0;flex:1}.rvc-x{border:0;background:rgba(0,0,0,.06);border-radius:50%;width:34px;height:34px;font-size:17px;cursor:pointer}'
++'.rvc-tab{display:flex;gap:8px;margin-bottom:10px}.rvc-tab button{flex:1;border:1.5px solid #e6ebf7;background:#fff;border-radius:11px;padding:9px;font-weight:800;font-size:13.5px;cursor:pointer;font-family:inherit}.rvc-tab button.on{background:#6d28d9;color:#fff;border-color:transparent}'
++'.rvc-grp{font-weight:800;font-size:13px;color:#666;margin:12px 2px 6px}'
++'.rvc-item{background:#fff;border:1px solid #e6ebf7;border-radius:13px;padding:11px 13px;margin-bottom:9px}'
++'.rvc-q{font-weight:600;font-size:14.5px;line-height:1.5}'
++'.rvc-opt{border:1.5px solid #e6ebf7;border-radius:11px;padding:9px 12px;margin-top:7px;cursor:pointer;font-size:14.5px;display:flex;gap:8px;background:#fff}'
++'.rvc-opt .lb{font-weight:800;color:#888}.rvc-opt.ok{background:#e7f8ee;border-color:#37b36b}.rvc-opt.no{background:#fdecec;border-color:#e15656}'
++'.rvc-exp{background:#f0f5ff;border-left:3px solid #4f6ef7;border-radius:8px;padding:9px 11px;margin-top:8px;font-size:13px;line-height:1.6}'
++'.rvc-word{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e6ebf7;border-radius:12px;padding:10px 12px;margin-bottom:8px}'
++'.rvc-word .w{font-weight:800;font-size:15.5px}.rvc-word .z{font-size:13.5px;color:#666}.rvc-word .src{font-size:10.5px;color:#9aa;margin-left:auto;white-space:nowrap}'
++'.rvc-ic{border:0;background:#eef2ff;border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;flex:0 0 auto}'
++'.rvc-primary{width:100%;border:0;border-radius:14px;padding:14px;font-size:15.5px;font-weight:800;color:#fff;background:#6d28d9;cursor:pointer;margin:8px 0;font-family:inherit}'
++'.rvc-flash{background:#fff;border:1px solid #e6ebf7;border-radius:18px;padding:34px 18px;text-align:center;margin:10px 0;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.06)}'
++'.rvc-flash .fw{font-size:30px;font-weight:800}.rvc-flash .fz{font-size:20px;margin-top:12px;color:#6d28d9}'
++'.rvc-grade{display:grid;grid-template-columns:1fr 1fr;gap:10px}.rvc-grade button{border:0;border-radius:13px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit}'
++'.rvc-bad{background:#fdecec;color:#c0392b}.rvc-good{background:#e7f8ee;color:#1e8e4e}'
++'.rvc-empty{text-align:center;color:#888;padding:26px;font-size:14px;line-height:1.9}';
+var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+
+function ownWrong(){var w=R.wrong(),o=[];for(var k in w){if(w[k].app===MYID)o.push(w[k]);}return o;}
+function ownWords(){var v=R.words(),o=[];for(var k in v){if(v[k].app===MYID)o.push(v[k]);}return o;}
+function due(a){return a.filter(function(x){return x.due<=NOW;});}
+
+function ov(title,inner){var o=document.createElement('div');o.className='rvc-ov';
+  o.innerHTML='<div class=\"rvc-sheet\"><div class=\"rvc-hd\"><h2>'+title+'</h2><button class=\"rvc-x\">✕</button></div><div class=\"rvc-body\">'+inner+'</div></div>';
+  o.addEventListener('click',function(e){if(e.target===o)o.remove();});
+  o.querySelector('.rvc-x').addEventListener('click',function(){o.remove();refreshFab();});
+  document.body.appendChild(o);return o;}
+
+/* ===== 一般 App：只複習自己的 ===== */
+function refreshFab(){var fab=document.getElementById('rvcFab');if(!fab)return;
+  var dw=due(ownWrong()).length, dv=due(ownWords()).length, tot=dw+dv;
+  if(tot>0){fab.style.display='inline-flex';fab.innerHTML='📝 複習<span class=\"bdg\">'+tot+'</span>';}else{fab.style.display='none';}}
+function openSelf(){
+  var W=ownWrong(),V=ownWords();
+  var h='<div class=\"rvc-tab\"><button class=\"on\" data-t=\"w\">📕 錯題 '+W.length+'</button><button data-t=\"v\">📘 生字 '+V.length+'</button></div><div id=\"rvcPane\"></div>';
+  var o=ov('📝 我的複習',h);
+  var pane=o.querySelector('#rvcPane');
+  o.querySelectorAll('.rvc-tab button').forEach(function(b){b.addEventListener('click',function(){o.querySelectorAll('.rvc-tab button').forEach(function(x){x.classList.remove('on');});b.classList.add('on');paint(b.dataset.t);});});
+  function paint(t){if(t==='v')paintWords(pane,V,o);else paintWrong(pane,W,o);}
+  paint('w');
+}
+function paintWrong(pane,W,o){
+  if(!W.length){pane.innerHTML='<div class=\"rvc-empty\">目前沒有錯題 🎉<br>練習答錯的題目會自動收進這裡。</div>';return;}
+  var d=due(W);
+  var grp={};W.forEach(function(e){(grp[e.cat||'其他']=grp[e.cat||'其他']||[]).push(e);});
+  var h='<button class=\"rvc-primary\" '+(d.length?'':'disabled style=opacity:.5')+' id=\"rvcQz\">▶ 重考待複習錯題（'+d.length+'）</button>';
+  Object.keys(grp).forEach(function(g){h+='<div class=\"rvc-grp\">'+esc(g)+'（'+grp[g].length+'）</div>';
+    grp[g].forEach(function(e){h+='<div class=\"rvc-item\"><div class=\"rvc-q\">'+esc(e.stem)+'</div><div class=\"rvc-exp\"><b>✅ 正解 '+L[e.ans]+'：</b>'+esc((e.options||[])[e.ans]||'')+'　'+esc(e.expl||'')+'</div></div>';});});
+  pane.innerHTML=h;
+  var qz=pane.querySelector('#rvcQz');if(qz&&d.length)qz.addEventListener('click',function(){startQuiz(d,o);});
+}
+function startQuiz(pool,parent){
+  parent.remove();var i=0,right=0;var o=ov('📕 重考錯題（'+pool.length+'）','<div id=\"rvcQ\"></div>');
+  function draw(){var box=o.querySelector('#rvcQ');if(i>=pool.length){box.innerHTML='<div class=\"rvc-empty\">複習完成！答對 '+right+'/'+pool.length+'<br>連對 2 次的題目會自動畢業 🎓</div><button class=\"rvc-primary\">完成</button>';box.querySelector('button').addEventListener('click',function(){o.remove();refreshFab();});return;}
+    var e=pool[i];var h='<div class=\"rvc-item\"><div class=\"rvc-q\">'+(i+1)+'. '+esc(e.stem)+'</div>';
+    (e.options||[]).forEach(function(op,oi){h+='<div class=\"rvc-opt\" data-i=\"'+oi+'\"><span class=\"lb\">'+L[oi]+'</span><span>'+esc(op)+'</span></div>';});
+    h+='<div id=\"rvcFb\"></div></div>';box.innerHTML=h;
+    box.querySelectorAll('.rvc-opt').forEach(function(el){el.addEventListener('click',function(){
+      if(box.dataset.done)return;box.dataset.done='1';var pick=+el.dataset.i,ok=pick===e.ans;
+      box.querySelectorAll('.rvc-opt').forEach(function(x){var xi=+x.dataset.i;if(xi===e.ans)x.classList.add('ok');else if(xi===pick)x.classList.add('no');});
+      R.graded(e.id,ok);if(ok)right++;
+      box.querySelector('#rvcFb').innerHTML='<div class=\"rvc-exp\"><b>'+(ok?'✅ 答對':'❌ 答錯')+'・正解 '+L[e.ans]+'：</b>'+esc(e.expl||'')+'</div><button class=\"rvc-primary\">下一題 ▶</button>';
+      box.querySelector('#rvcFb button').addEventListener('click',function(){i++;delete box.dataset.done;draw();});
+    });});}
+  draw();
+}
+function paintWords(pane,V,o){
+  if(!V.length){pane.innerHTML='<div class=\"rvc-empty\">還沒有生字 📖<br>閱讀或做題時點不會的單字，就會收進這裡。</div>';return;}
+  var h='<button class=\"rvc-primary\" id=\"rvcFl\">🃏 翻卡複習（'+V.length+'）</button>';
+  V.forEach(function(e,idx){h+='<div class=\"rvc-word\"><div><div class=\"w\">'+esc(e.word)+' <span style=\"font-size:11px;color:#9aa\">'+esc(e.pos||'')+'</span></div><div class=\"z\">'+esc(e.zh)+'</div></div><span class=\"src\">'+esc(e.cat||'')+'</span>'
+    +'<button class=\"rvc-ic\" data-say=\"'+esc(e.word)+'\">🔊</button>'
+    +((!e.zh||e.zh==='（待查）')?'<button class=\"rvc-ic\" data-fill=\"'+esc(e.word)+'\">✏️</button>':'')
+    +'<button class=\"rvc-ic\" data-del=\"'+esc(e.word)+'\">🗑️</button></div>';});
+  pane.innerHTML=h;
+  pane.querySelector('#rvcFl').addEventListener('click',function(){startFlash(V,o);});
+  pane.querySelectorAll('[data-say]').forEach(function(b){b.addEventListener('click',function(){speak(b.dataset.say);});});
+  pane.querySelectorAll('[data-fill]').forEach(function(b){b.addEventListener('click',function(){var w=b.dataset.fill,zh=prompt('輸入「'+w+'」的中文意思：');if(zh&&zh.trim()){R.setWordZh(w,zh.trim());o.remove();openSelf();}});});
+  pane.querySelectorAll('[data-del]').forEach(function(b){b.addEventListener('click',function(){if(confirm('移除生字「'+b.dataset.del+'」？')){R.removeWord(b.dataset.del);o.remove();openSelf();}});});
+}
+function startFlash(V,parent){
+  parent.remove();var i=0;var o=ov('🃏 生字翻卡','<div id=\"rvcF\"></div>');
+  function draw(){var box=o.querySelector('#rvcF');if(i>=V.length){box.innerHTML='<div class=\"rvc-empty\">複習完成！👏</div><button class=\"rvc-primary\">完成</button>';box.querySelector('button').addEventListener('click',function(){o.remove();refreshFab();});return;}
+    var e=V[i];box.innerHTML='<div class=\"rvc-flash\" id=\"cf\"><div class=\"fw\">'+esc(e.word)+'</div><div style=\"font-size:12px;color:#9aa;margin-top:6px\">點卡片看中文・🔊</div></div>';
+    var flip=false,cf=box.querySelector('#cf');
+    cf.addEventListener('click',function(){if(!flip){flip=true;cf.innerHTML='<div class=\"fw\">'+esc(e.word)+'</div><div class=\"fz\">'+esc(e.zh)+'</div>';speak(e.word);
+      var g=document.createElement('div');g.className='rvc-grade';g.innerHTML='<button class=\"rvc-bad\">還不熟</button><button class=\"rvc-good\">記得了</button>';box.appendChild(g);
+      g.children[0].addEventListener('click',function(){R.wordGraded(e.word,false);i++;draw();});
+      g.children[1].addEventListener('click',function(){R.wordGraded(e.word,true);i++;draw();});
+    }else speak(e.word);});}
+  draw();
+}
+function mountSelf(){var fab=document.createElement('button');fab.id='rvcFab';fab.className='rvc-fab';fab.addEventListener('click',openSelf);document.body.appendChild(fab);refreshFab();}
+
+/* ===== Hub：只總覽 ===== */
+function mountOverview(){
+  var host=document.getElementById('dash');var card=document.createElement('div');card.className='rvc-card';card.id='rvcCard';
+  if(host&&host.parentNode)host.parentNode.insertBefore(card,host.nextSibling);else document.body.insertBefore(card,document.body.firstChild);
+  var w=R.wrong(),v=R.words();var per={};
+  function acc(id,kind){if(!NSMAP[id])return;per[id]=per[id]||{w:0,v:0};per[id][kind]++;}
+  for(var k in w){if(w[k].due<=NOW)acc(w[k].app,'w');}
+  for(var k2 in v){if(v[k2].due<=NOW)acc(v[k2].app,'v');}
+  var ids=Object.keys(per);
+  var h='<h3>📝 我的複習</h3>';
+  if(!ids.length){h+='<div class=\"rvc-none\">目前沒有待複習的錯題或生字 🎉<br>去各 App 練習，答錯的題目、閱讀點的生字，會分別留在<b>那支 App</b> 裡等你複習。</div>';}
+  else{h+='<div class=\"rvc-sub\">點進該 App 複習自己的錯題與生字（各程度分開，不混在一起）</div>';
+    ids.forEach(function(id){var m=NSMAP[id],p=per[id];h+='<a class=\"rvc-approw\" href=\"'+m.url+'\"><div><div class=\"an\">'+esc(m.name)+'</div><div class=\"am\">'+(p.w?'錯題 '+p.w+' 題':'')+(p.w&&p.v?'・':'')+(p.v?'生字 '+p.v+' 個':'')+'</div></div><span class=\"ag\">去複習 ▶</span></a>';});}
+  card.innerHTML=h;
+}
+
+if(ISHUB){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mountOverview);else mountOverview();}
+else{if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mountSelf);else mountSelf();}
+})();</script>
 </body>
 </html>
