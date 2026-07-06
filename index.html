@@ -465,7 +465,7 @@ function answer(q,choice,box){
   const d=P(); const card=d.srs[q.id]||{};
   sched(card,correct?'good':'again'); d.srs[q.id]=card;
   d.log.push({qid:q.id,correct,ts:Date.now(),mode:session.wrongMode?'review':'first'});
-  if(!correct){if(!d.wrong.includes(q.id))d.wrong.push(q.id)} else if(d.wrong.includes(q.id)){if(card.firstOk==null)card.firstOk=today();if((card.reps||0)>=2&&today()>card.firstOk){d.wrong=d.wrong.filter(x=>x!==q.id);d.overcome=(d.overcome||0)+1;}}
+  if(!correct){if(!d.wrong.includes(q.id))d.wrong.push(q.id);try{window.EngReview&&EngReview.addWrong({cat:q.unit||'片語',stem:q.stem||q.word||'',options:q.options,your:choice,ans:q.answer,expl:q.explanation||''});}catch(e){}} else if(d.wrong.includes(q.id)){if(card.firstOk==null)card.firstOk=today();if((card.reps||0)>=2&&today()>card.firstOk){d.wrong=d.wrong.filter(x=>x!==q.id);d.overcome=(d.overcome||0)+1;}}
   savP(d); if(correct)session.right++;
   if(!correct){session.wrongStreak=(session.wrongStreak||0)+1;
     let enc;
