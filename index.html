@@ -162,6 +162,10 @@ function curProfile(){return profiles().find(p=>p.id===curId())}
 function prog(id){try{return JSON.parse(LS.getItem('engph.prog.'+id)||'{}')}catch{return{}}}
 function saveProg(id,d){LS.setItem('engph.prog.'+id,JSON.stringify(d))}
 function P(){const id=curId();const d=prog(id);d.srs=d.srs||{};d.wrong=d.wrong||[];d.log=d.log||[];return d}
+/* 忍者修行：跨App共用經驗錢包(同網域，灌進火影修行計畫) */
+const NINJA_APP='phrase';
+window.Ninja=window.Ninja||(function(){var K='ninja_xp_v1';function L(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return{}}}function G(){var w=L();w.xp=w.xp||0;w.bySrc=w.bySrc||{};w.correct=w.correct||0;w.units=w.units||0;w.jutsu=w.jutsu||[];w.seen=w.seen||{};return w}function P2(w){w.ts=Date.now();try{localStorage.setItem(K,JSON.stringify(w))}catch(e){}}return{get:G,gain:function(n,a,o){o=o||{};var w=G();w.xp+=n;w.bySrc[a]=(w.bySrc[a]||0)+n;w.correct+=(o.correct||0);w.units+=(o.unit||0);P2(w);return w},backfill:function(a,x,o){var w=G();if(w.seen[a])return w;o=o||{};w.xp+=x;w.bySrc[a]=(w.bySrc[a]||0)+x;w.correct+=(o.correct||0);w.units+=(o.unit||0);w.seen[a]=1;P2(w);return w}}})();
+(function(){try{var s=P().srs||{},tc=0;for(var k in s){if(s[k]&&(s[k].reps>0||s[k].nx))tc++;}Ninja.backfill(NINJA_APP,tc*10,{correct:tc});}catch(e){}})();
 function savP(d){const id=curId();if(!id)return;saveProg(id,d)}
 
 // ---------- SRS (SM-2 lite) ----------
@@ -463,7 +467,9 @@ function answer(q,choice,box){
   const correct=choice===q.answer;
   [...box.children].forEach((b,i)=>{b.disabled=true;if(i===q.answer){b.classList.add('ok');b.insertAdjacentHTML('beforeend',' <b aria-hidden="true">✓</b>');}if(i===choice&&!correct){b.classList.add('bad');b.insertAdjacentHTML('beforeend',' <b aria-hidden="true">✗</b>');}});
   const d=P(); const card=d.srs[q.id]||{};
-  sched(card,correct?'good':'again'); d.srs[q.id]=card;
+  sched(card,correct?'good':'again');
+  if(correct && !card.nx){ card.nx=1; Ninja.gain(10,NINJA_APP,{correct:1}); }   // 首次答對灌經驗
+  d.srs[q.id]=card;
   d.log.push({qid:q.id,correct,ts:Date.now(),mode:session.wrongMode?'review':'first'});
   if(!correct){if(!d.wrong.includes(q.id))d.wrong.push(q.id);try{window.EngReview&&EngReview.addWrong({cat:q.unit||'片語',stem:q.stem||q.word||'',options:q.options,your:choice,ans:q.answer,expl:q.explanation||''});}catch(e){}} else if(d.wrong.includes(q.id)){if(card.firstOk==null)card.firstOk=today();if((card.reps||0)>=2&&today()>card.firstOk){d.wrong=d.wrong.filter(x=>x!==q.id);d.overcome=(d.overcome||0)+1;}}
   savP(d); if(correct)session.right++;
