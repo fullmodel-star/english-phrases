@@ -878,5 +878,69 @@ else{if(document.readyState==='loading')document.addEventListener('DOMContentLoa
   navigator.serviceWorker.addEventListener('controllerchange',function(){if(refreshing)return;refreshing=true;location.reload();});
 })();
 </script>
+<!--RIDGELINE_BRAND_START-->
+<div id="rdgFab" role="button" tabindex="0" aria-label="關於 稜線工作室" title="關於 稜線工作室"><svg class="rdg-mark" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1.5" y="1.5" width="77" height="77" rx="17" fill="#0e1013"/><polyline points="15,57 30,39 42,49 61,23" fill="none" stroke="#3fd0bd" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M62 11 C62.6 18.4 63.8 19.6 71.2 20.2 C63.8 20.8 62.6 22 62 29.4 C61.4 22 60.2 20.8 52.8 20.2 C60.2 19.6 61.4 18.4 62 11 Z" fill="#ffffff"/></svg></div>
+<div id="rdgOverlay" role="dialog" aria-modal="true" aria-label="稜線工作室">
+  <div id="rdgCard">
+    <button id="rdgClose" aria-label="關閉">&times;</button>
+    <div class="rdg-logo"><svg class="rdg-mark" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1.5" y="1.5" width="77" height="77" rx="17" fill="#0e1013"/><polyline points="15,57 30,39 42,49 61,23" fill="none" stroke="#3fd0bd" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M62 11 C62.6 18.4 63.8 19.6 71.2 20.2 C63.8 20.8 62.6 22 62 29.4 C61.4 22 60.2 20.8 52.8 20.2 C60.2 19.6 61.4 18.4 62 11 Z" fill="#ffffff"/></svg>
+      <div class="rdg-name">
+        <div class="rdg-zh">稜線工作室</div>
+        <div class="rdg-en">RIDGELINE STUDIO</div>
+      </div>
+    </div>
+    <div class="rdg-by">Lucas 出品</div>
+    <div class="rdg-slogan">「人生走稜，高低都是風景。」</div>
+    <div class="rdg-hr"></div>
+    <div class="rdg-dtitle">免責聲明</div>
+    <p class="rdg-dtext">本應用程式為個人開發之學習輔助工具，內容僅供學習參考。單字、例句、題目與解析雖力求正確，仍可能存有誤差，且不代表任何官方立場。正式考試與課程之內容，請一律以教育部、大學入學考試中心、各出版社及所屬學校之公告與教材為準。本工具與上述官方機構、出版社均無隸屬或合作關係；文中出現之名稱、商標僅為教學說明之用，著作權歸原權利人所有。使用本工具所生之任何學習或考試結果，開發者不負擔法律責任。</p>
+  </div>
+</div>
+<style>
+#rdgFab{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:99990;
+  width:30px;height:44px;background:#0e1013;border:1px solid #2a2f36;border-right:none;
+  border-radius:12px 0 0 12px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;opacity:.62;box-shadow:0 4px 14px rgba(0,0,0,.28);transition:opacity .2s,width .2s;
+  padding-right:2px;-webkit-tap-highlight-color:transparent}
+#rdgFab:hover,#rdgFab:focus-visible{opacity:1;width:34px;outline:none}
+#rdgFab .rdg-mark{width:22px;height:22px;display:block}
+#rdgOverlay{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;
+  background:rgba(6,8,10,.62);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);padding:20px}
+#rdgOverlay.open{display:flex}
+#rdgCard{position:relative;width:min(420px,100%);max-height:88vh;overflow:auto;
+  background:linear-gradient(180deg,#14181d,#0e1013);color:#e8ebee;border:1px solid #2a2f36;
+  border-radius:20px;padding:26px 24px 24px;box-shadow:0 24px 70px rgba(0,0,0,.5);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  text-align:center;animation:rdgpop .22s ease}
+@keyframes rdgpop{from{transform:translateY(10px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+#rdgClose{position:absolute;top:10px;right:14px;background:none;border:none;color:#8b939c;
+  font-size:26px;line-height:1;cursor:pointer;padding:4px}
+#rdgClose:hover{color:#fff}
+#rdgCard .rdg-logo{display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 4px}
+#rdgCard .rdg-mark{width:58px;height:58px;flex:none}
+#rdgCard .rdg-name{text-align:left}
+#rdgCard .rdg-zh{font-size:22px;font-weight:800;letter-spacing:3px;color:#fff;line-height:1.2}
+#rdgCard .rdg-en{font-size:11px;letter-spacing:4px;color:#8b939c;margin-top:3px}
+#rdgCard .rdg-by{margin-top:14px;font-size:14px;color:#3fd0bd;letter-spacing:2px;font-weight:600}
+#rdgCard .rdg-slogan{margin-top:8px;font-size:15px;color:#c9ced4;letter-spacing:1px}
+#rdgCard .rdg-hr{height:1px;background:linear-gradient(90deg,transparent,#2a2f36,transparent);margin:20px 0 16px}
+#rdgCard .rdg-dtitle{font-size:12px;font-weight:700;color:#9aa2ab;letter-spacing:2px;margin-bottom:8px}
+#rdgCard .rdg-dtext{font-size:12px;line-height:1.85;color:#7f878f;text-align:justify;margin:0}
+</style>
+<script>
+(function(){
+  var fab=document.getElementById('rdgFab'),ov=document.getElementById('rdgOverlay'),
+      cl=document.getElementById('rdgClose');
+  if(!fab||!ov)return;
+  function open(){ov.classList.add('open');}
+  function close(){ov.classList.remove('open');}
+  fab.addEventListener('click',open);
+  fab.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+  cl&&cl.addEventListener('click',close);
+  ov.addEventListener('click',function(e){if(e.target===ov)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
+<!--RIDGELINE_BRAND_END-->
 </body>
 </html>
