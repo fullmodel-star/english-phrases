@@ -931,14 +931,13 @@ else{if(document.readyState==='loading')document.addEventListener('DOMContentLoa
 <script>/*ENG_SYNC_MODULE_V2*/
 window.__ENG_APP="phrases";window.__ENG_LABEL="英語片語";
 window.__ENG_SUMMARY=function(){
-  var id=''; try{ id=localStorage.getItem('engph.current')||''; }catch(e){}
-  var d={}; try{ d=JSON.parse(localStorage.getItem('engph.prog.'+id)||'{}'); }catch(e){}
+  var id=''; try{ id=localStorage.getItem('%NS%.current')||''; }catch(e){}
+  var d={}; try{ d=JSON.parse(localStorage.getItem('%NS%.prog.'+id)||'{}'); }catch(e){}
   var srs=d.srs||{}, log=d.log||[];
   var mastered=Object.keys(srs).filter(function(k){return srs[k]&&srs[k].interval>=3}).length;
-  var total=0;
-  try{ if(typeof skillProgress==='function'){ ['vocab'].forEach(function(t){ var r=skillProgress(t); if(r&&r.tot) total+=r.tot; }); } }catch(e){}
-  var ok=log.filter(function(x){return x&&x.correct}).length;
-  var acc = log.length? Math.round(ok/log.length*100) : null;
+  var learned=Object.keys(srs).length, total=291;
+  var pct=Math.round(learned/total*100), plabel='已學過';
+  var lead={k:'已學過',v:learned+'/'+total}, ansChip=[{k:'作答',v:log.length}];
   // 連續天數：直接由 log 時間戳推算，不依賴 App 內部函式(17 的函式包在 IIFE 內取不到)
   var days={};
   log.forEach(function(x){ if(x&&x.ts){ var t2=new Date(x.ts); days[t2.getFullYear()+'-'+t2.getMonth()+'-'+t2.getDate()]=1; } });
@@ -947,11 +946,8 @@ window.__ENG_SUMMARY=function(){
     var kk=cur.getFullYear()+'-'+cur.getMonth()+'-'+cur.getDate();
     if(days[kk]){ sk++; cur.setDate(cur.getDate()-1); } else break;
   }
-  return {pct: total? Math.round(mastered/total*100) : acc,
-    pctLabel: total? '精熟' : '作答正確率',
-    streak: sk,
-    metrics:[{k:'精熟',v:mastered+(total?('/'+total):'')},{k:'待清錯題',v:(d.wrong||[]).length},
-             {k:'作答',v:log.length},{k:'已征服',v:d.overcome||0}]};
+  return {pct: pct, pctLabel: plabel, streak: sk,
+    metrics:[lead,{k:'精熟',v:mastered},{k:'待清錯題',v:(d.wrong||[]).length}].concat(ansChip).concat([{k:'已征服',v:d.overcome||0}])};
 };
 (function(){
   var APP=window.__ENG_APP||'app', LABEL=window.__ENG_LABEL||document.title;
@@ -1012,6 +1008,7 @@ window.__ENG_SUMMARY=function(){
   }, 900);
 })();
 </script>
+
 
 
 
