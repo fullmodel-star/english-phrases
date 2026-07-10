@@ -709,7 +709,6 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch
   else window.addEventListener('load',function(){setTimeout(mount,300);});
 })();
 </script>
-
 <script>/*ENG_SYNC_MODULE_V2*/
 window.__ENG_APP="phrases";window.__ENG_LABEL="英語片語";
 window.__ENG_SUMMARY=function(){
@@ -717,7 +716,8 @@ window.__ENG_SUMMARY=function(){
   var d={}; try{ d=JSON.parse(localStorage.getItem('%NS%.prog.'+id)||'{}'); }catch(e){}
   var srs=d.srs||{}, log=d.log||[];
   var mastered=Object.keys(srs).filter(function(k){return srs[k]&&srs[k].interval>=3}).length;
-  var learned=Object.keys(srs).length, total=291;
+  var learned=Object.keys(srs).length;
+  var total=(typeof DATA!=='undefined'&&DATA&&DATA.vocab)?((DATA.vocab.length)||Object.keys(DATA.vocab).length):291;
   var pct=Math.round(learned/total*100), plabel='已學過';
   var lead={k:'已學過',v:learned+'/'+total}, ansChip=[{k:'作答',v:log.length}];
   // 連續天數：直接由 log 時間戳推算，不依賴 App 內部函式(17 的函式包在 IIFE 內取不到)
@@ -728,7 +728,7 @@ window.__ENG_SUMMARY=function(){
     var kk=cur.getFullYear()+'-'+cur.getMonth()+'-'+cur.getDate();
     if(days[kk]){ sk++; cur.setDate(cur.getDate()-1); } else break;
   }
-  return {pct: pct, pctLabel: plabel, streak: sk,
+  return {pct: pct, pctLabel: plabel, total: total, streak: sk,
     metrics:[lead,{k:'精熟',v:mastered},{k:'待清錯題',v:(d.wrong||[]).length}].concat(ansChip).concat([{k:'已征服',v:d.overcome||0}])};
 };
 (function(){
@@ -753,6 +753,8 @@ window.__ENG_SUMMARY=function(){
   function push(beacon){
     var c=cfg(); if(!c.url||!c.child) return;
     var r=report();
+    // 把 App 內的真實總數存到共用 key，供「一鍵導入頁」用(免寫死、內容變了也跟得上)
+    try{ if(typeof r.total==='number' && r.total>0) localStorage.setItem('eng_total_'+APP, r.total); }catch(e){}
     var body=JSON.stringify({child:c.child, app:APP, label:LABEL, key:c.key, ts:Date.now(),
       pct:(r.pct===undefined?null:r.pct), pctLabel:r.pctLabel||'進度',
       streak:(r.streak===undefined?null:r.streak), metrics:r.metrics||[]});
@@ -790,6 +792,7 @@ window.__ENG_SUMMARY=function(){
   }, 900);
 })();
 </script>
+
 
 
 
