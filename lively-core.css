@@ -1,0 +1,173 @@
+/* =====================================================================
+   活潑層 lively-core v1.0（2026-10-03，英語對外家族共用）
+   來源：packages/lively/lively-core.css（由 sync_lively.py 複製進各 App，請改來源再重跑）
+   三份檔案分工：
+     lively-core.css   全家族共用（字型、彩帶、連對提示、頁首、浮動鈕整理、動畫）
+     lively-engine.css 各群畫面結構的接法（vocab／conv／qbank…）
+     lively-theme.css  各支淺色色票（--lv-btn／--lv-ink／--lv-acc／--lv-soft／--lv-soft2），腳本依主題色算出
+   設計原則（老闆 2026-10-03）：米白為主、主色只用在重點、顏色不要太深 → 按鈕＝中淺色底＋同色相深色字。
+   品牌層（頁首山形 PNG＋App 名、頁尾簽名）不動。外部資源：Nunito（OFL-1.1）、Fluent Emoji（MIT）、canvas-confetti（ISC）。
+   退路：活潑層檔案沒載入時 App 回到原樣。
+   ===================================================================== */
+
+@font-face{font-family:"LvNum";font-style:normal;font-weight:800;font-display:swap;
+  src:url(vendor/nunito/nunito-latin-800-normal.woff2) format("woff2");unicode-range:U+0000-00FF}
+@font-face{font-family:"LvNum";font-style:normal;font-weight:900;font-display:swap;
+  src:url(vendor/nunito/nunito-latin-900-normal.woff2) format("woff2");unicode-range:U+0000-00FF}
+
+/* 語意色（全家族固定）：答對＝綠、答錯＝珊瑚紅、暖陽＝連續天數／星星 */
+:root{
+  --lv-ok:#1E7A4C;--lv-ok-k:#1E7A4C;--lv-ok-soft:#E3F4EA;--lv-ok-line:#7CC59E;
+  --lv-no:#B3261E;--lv-no-k:#C8372D;--lv-no-soft:#FCE6E2;--lv-no-line:#E79A90;
+  --lv-sun:#8A4B00;--lv-sun-soft:#FFF0D0;
+  --lv-paper:#FBF8F1;--lv-card:#FFFFFF;--lv-line:#ECE5D6;--lv-text:#1F2933;--lv-muted:#6B6352;
+}
+html[data-theme="dark"],html[data-theme="dark"] body{
+  --lv-ok:#6FD39C;--lv-ok-soft:#183427;--lv-ok-line:#2F6B4B;
+  --lv-no:#FF9A8F;--lv-no-soft:#3A1F1C;--lv-no-line:#7A3A33;
+  --lv-sun:#FFC960;--lv-sun-soft:#3A2C12;
+  --lv-paper:#14191E;--lv-card:#1C2228;--lv-line:#2A323A;--lv-text:#E8EDF1;--lv-muted:#9AA7B2;
+}
+/* 有些群組的深色模式直接跟系統（不設 data-theme），同一組值再給一次 */
+@media (prefers-color-scheme:dark){html:not([data-theme]),html:not([data-theme]) body{
+  --lv-ok:#6FD39C;--lv-ok-soft:#183427;--lv-ok-line:#2F6B4B;
+  --lv-no:#FF9A8F;--lv-no-soft:#3A1F1C;--lv-no-line:#7A3A33;
+  --lv-sun:#FFC960;--lv-sun-soft:#3A2C12;
+  --lv-paper:#14191E;--lv-card:#1C2228;--lv-line:#2A323A;--lv-text:#E8EDF1;--lv-muted:#9AA7B2;
+}}
+
+/* ---------- 頁首：淡主色底＋山丘剪影（山形 PNG 與 App 名不動） ---------- */
+.rl-appbar{position:relative;overflow:hidden;background:var(--lv-soft)!important;--on:var(--lv-text);color:var(--lv-text)}
+.rl-appbar::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30px;pointer-events:none;background:var(--lv-soft2);opacity:.75;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 60' preserveAspectRatio='none'%3E%3Cpath d='M0 60 L0 38 Q60 14 120 34 T250 30 T400 22 L400 60Z'/%3E%3C/svg%3E") bottom/100% 100% no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 60' preserveAspectRatio='none'%3E%3Cpath d='M0 60 L0 38 Q60 14 120 34 T250 30 T400 22 L400 60Z'/%3E%3C/svg%3E") bottom/100% 100% no-repeat}
+.rl-appbar > *{position:relative;z-index:1}
+/* 副標原本是 62% 透明字，淡底上只有約 4.1 → 改實色灰 */
+.rl-appbar .rl-sub{color:var(--lv-muted)}
+/* 深色：頁首／頁尾山形換同資料夾的官方白色版（901 起的做法；不重新上色、只換官方檔） */
+html[data-theme="dark"] .rl-appbar img.rl-glyph,html[data-theme="dark"] .rl-signature img.rl-sig-glyph{content:url(rl-mark-everest-white.png)}
+@media (prefers-color-scheme:dark){html:not([data-theme]) .rl-appbar img.rl-glyph,html:not([data-theme]) .rl-signature img.rl-sig-glyph{content:url(rl-mark-everest-white.png)}}
+
+/* 家族「安裝到桌面」按鈕（原本用品牌層破曉金 #DE9A45；品牌規範：品牌層的金不拿去做按鈕）→ 各支按鈕色 */
+#rdgInstallBtn{background:var(--lv-btn)!important;color:var(--lv-ink)!important;border:0!important;box-shadow:0 4px 0 var(--lv-btn-d)!important}
+/* 家族「📝 我的複習」浮動鈕與面板主按鈕（rvc 模組原本深紫）→ 收進色系 */
+.rvc-fab,.rvc-primary{background:var(--lv-btn)!important;color:var(--lv-ink)!important;border-color:transparent!important;box-shadow:0 4px 0 var(--lv-btn-d)!important}
+
+/* ---------- Fluent Emoji 圖示 ---------- */
+.lv-ico{width:28px;height:28px;display:block}
+.lv-ico-sm{width:24px;height:24px;display:block}
+.lv-ico-inline{width:1.2em;height:1.2em;vertical-align:-.22em;display:inline-block}
+
+/* ---------- 新手第一步卡（有接的 engine 才會出現） ---------- */
+.lv-hero{margin-top:14px;padding:20px 18px 18px;border-radius:24px;background:linear-gradient(160deg,var(--lv-soft) 0%,var(--lv-sun-soft) 100%);box-shadow:0 0 0 1.5px var(--lv-line);text-align:center;color:var(--lv-text)}
+.lv-hero .lv-hero-ico{width:64px;height:64px;margin:0 auto 6px;display:block}
+.lv-hero h3{font-size:20px;font-weight:900;margin:2px 0 4px}
+.lv-hero p{margin:0 0 14px;font-size:14px;color:var(--lv-muted)}
+.lv-hero .lv-steps{display:flex;justify-content:center;gap:6px;margin:0 0 14px;font-size:12.5px;font-weight:700;flex-wrap:wrap}
+.lv-hero .lv-steps span{background:var(--lv-card);border-radius:20px;padding:4px 10px;box-shadow:0 0 0 1px var(--lv-line)}
+.lv-hero .lv-go{display:block;width:100%;border:0;border-radius:18px;padding:15px;font:inherit;font-size:18px;font-weight:800;cursor:pointer;
+  background:var(--lv-btn);color:var(--lv-ink);box-shadow:0 5px 0 var(--lv-btn-d)}
+.lv-hero .lv-go:active{transform:translateY(4px);box-shadow:0 1px 0 var(--lv-btn-d)}
+
+/* ---------- 答對／答錯回饋 ---------- */
+.lv-combo{position:fixed;left:50%;top:30%;z-index:2147483100;transform:translate(-50%,0);pointer-events:none;
+  background:linear-gradient(90deg,#D9480F,#E8590C);color:#fff;/* 白字 ≥3.58（22px 粗體＝大字門檻 3） */
+  font-weight:900;font-size:22px;padding:10px 22px;border-radius:30px;box-shadow:0 8px 24px rgba(217,72,15,.35);
+  font-family:"LvNum",system-ui,"PingFang TC","Microsoft JhengHei",sans-serif;white-space:nowrap}
+#lvConfetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2147483000}
+
+@media (prefers-reduced-motion:no-preference){
+  .lv-pop{animation:lvPop .42s cubic-bezier(.3,1.6,.5,1)}
+  .lv-shake{animation:lvShake .4s ease}
+  .lv-combo{animation:lvCombo 1.2s ease forwards}
+  .lv-hero .lv-hero-ico{animation:lvBob 2.4s ease-in-out infinite}
+  .lv-flame{animation:lvFlame 1.6s ease-in-out infinite;transform-origin:50% 90%}
+  .lv-bump{animation:lvPop .5s cubic-bezier(.3,1.6,.5,1)}
+}
+@keyframes lvPop{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
+@keyframes lvShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes lvCombo{0%{opacity:0;transform:translate(-50%,16px) scale(.7)}18%{opacity:1;transform:translate(-50%,0) scale(1.08)}30%{transform:translate(-50%,0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-26px)}}
+@keyframes lvBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+@keyframes lvFlame{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.15) rotate(4deg)}}
+
+/* ---------- 浮動鈕整理（家族共用模組 engwc／rvc／rdgInstall） ---------- */
+body.lv-has-installbar #rdgInstall{display:none!important}
+body:has(.engwc-ov.show) #onboardOverlay{visibility:hidden}
+body:has(.overlay.show) .engwc-help,body:has(.overlay.show) .engwc-home,body:has(.overlay.show) .rvc-fab,body:has(.overlay.show) #rdgInstall,
+body:has(.sheet-bg.show) .engwc-help,body:has(.sheet-bg.show) .engwc-home,body:has(.sheet-bg.show) .rvc-fab,body:has(.sheet-bg.show) #rdgInstall{display:none!important}
+.engwc-start{background:var(--lv-btn)!important;color:var(--lv-ink)!important;box-shadow:0 4px 0 var(--lv-btn-d)}
+
+/* =====================================================================
+   作業簿版（2026-10-19，老闆選「A 清爽線條為底＋B 四線格與紅筆圈章，可以活潑一點」，九百系列全套用）
+   共用零件，各 engine 只要在 lively.js 設定裡指定選擇器：
+   - lines／linesLead：會按的東西一律線條圖示（Tabler，路徑在 lively.js）；彩色 Fluent 只當插圖
+   - four：英文寫在四線格上（加 .lv-four；Andika 識字教學字體，a/g 是手寫寫法）
+   - goalDone＋goalHost、resultHost＋resultPct（＋resultFns）：紅筆圈章
+   - 底紋：淡淡的方格紙；頁首家族按鈕（設定／LINE／回報／⬅入口／❓）同一種外觀
+   ===================================================================== */
+@font-face{font-family:"LvWord";src:url(vendor/andika/andika-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap;unicode-range:U+0000-024F}
+@font-face{font-family:"LvWord";src:url(vendor/andika/andika-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+0000-024F}
+html:not([data-theme="dark"]),html:not([data-theme="dark"]) body{
+  --lv-pen:#D2382E; --lv-rule:#B8C6E0; --lv-grid:color-mix(in srgb,var(--lv-acc) 5%,transparent)}
+html[data-theme="dark"],html[data-theme="dark"] body{
+  --lv-pen:#FF7D70; --lv-rule:#4A5670; --lv-grid:rgba(255,255,255,.035)}
+@media (prefers-color-scheme:dark){html:not([data-theme]),html:not([data-theme]) body{
+  --lv-pen:#FF7D70; --lv-rule:#4A5670; --lv-grid:rgba(255,255,255,.035)}}
+
+/* 方格紙 */
+/* 各 engine 會用 background 簡寫設底色（會清掉 image），所以這裡用 html body 提高優先權 */
+html body{background-image:linear-gradient(var(--lv-grid) 1px,transparent 1px),linear-gradient(90deg,var(--lv-grid) 1px,transparent 1px);background-size:22px 22px}
+
+/* 線條圖示 */
+.lv-line{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;display:block;flex:none}
+.lv-line-inline{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;margin:0 .3em}
+
+/* 頁首家族按鈕：同一種外觀（白底、細框、底下一條厚度） */
+.rl-appbar .ab-set,.rl-appbar .lineShareFab,.rl-appbar .reportFab,header .lineShareFab,header .reportFab{width:44px;height:44px;border-radius:13px;background:var(--lv-card);color:var(--lv-text);
+  box-shadow:0 0 0 1.5px var(--lv-line),0 3px 0 var(--lv-line);display:flex;align-items:center;justify-content:center;font-size:20px}
+.rl-appbar .reportFab,header .reportFab{color:var(--lv-muted)}
+.reportFab svg path{fill:currentColor}
+.lineShareFab svg{width:20px;height:20px}
+.lineShareFab svg path{fill:#06C755}
+/* 44px 按鈕＋原本 22px 內距會把 App 名稱擠成「國中英語 2…」（A1 回報）→ 手機上收窄內距與間距 */
+@media (max-width:480px){html body .rl-appbar{padding-left:14px;padding-right:12px;gap:6px}}
+.rl-appbar .ab-set:active,.lineShareFab:active,.reportFab:active{transform:translateY(2px);box-shadow:0 0 0 1.5px var(--lv-line),0 1px 0 var(--lv-line)}
+/* FABSAFE 區塊自己寫了 box-shadow:none!important → 用 html body 提高優先權才蓋得回來（A4 回報） */
+html body .fabsafe-bar .engwc-home,html body .fabsafe-bar .engwc-help{background:var(--lv-card)!important;color:var(--lv-text)!important;border:none!important;
+  box-shadow:0 0 0 1.5px var(--lv-line),0 3px 0 var(--lv-line)!important;border-radius:13px!important;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.fabsafe-bar .engwc-home{padding:0 14px 0 12px;font-size:14px!important}
+.fabsafe-bar .engwc-help{font-size:20px!important;color:var(--lv-muted)!important}
+.fabsafe-bar .engwc-home .lv-line{width:18px;height:18px}
+
+/* 四線格（第三條＝基線用紅筆）：線位是用 Andika＋行高 1.5 量出來的，換字體要重量 */
+.lv-four{font-family:"LvWord","LvNum",-apple-system,"Segoe UI",system-ui,sans-serif;font-weight:700;letter-spacing:.01em;
+  line-height:1.5;padding:0 .3em;background-size:100% 1.5em;background-repeat:repeat-y;background-image:
+    linear-gradient(transparent .32em,var(--lv-rule) .32em,var(--lv-rule) calc(.32em + 1.5px),transparent calc(.32em + 1.5px),
+                    transparent .65em,var(--lv-rule) .65em,var(--lv-rule) calc(.65em + 1.5px),transparent calc(.65em + 1.5px),
+                    transparent 1.13em,var(--lv-pen) 1.13em,var(--lv-pen) calc(1.13em + 1.5px),transparent calc(1.13em + 1.5px),
+                    transparent 1.37em,var(--lv-rule) 1.37em,var(--lv-rule) calc(1.37em + 1.5px),transparent calc(1.37em + 1.5px))}
+
+/* 紅筆圈章（宿主元素要 position:relative，engine 自己設） */
+.lv-stamp{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;
+  color:var(--lv-pen);border:2.5px solid var(--lv-pen);box-shadow:inset 0 0 0 2.5px var(--lv-card),inset 0 0 0 4px var(--lv-pen);
+  background:color-mix(in srgb,var(--lv-card) 82%,transparent);font-weight:900;line-height:1.05;text-align:center;pointer-events:none;z-index:2}
+.lv-stamp-goal{width:58px;height:58px;right:-14px;top:-12px;transform:rotate(-14deg);font-size:12px}
+.lv-stamp-goal b{font-size:15px;letter-spacing:.06em}
+.lv-stamp-result{width:106px;height:106px;right:6px;top:2px;transform:rotate(-12deg);font-family:"LvWord","LvNum",sans-serif}
+.lv-stamp-result b{font-size:15px;letter-spacing:-.01em}
+.lv-stamp-result span{font-size:13px;margin-top:3px;font-family:"LvNum",sans-serif}
+.lv-stamp-soft{opacity:.85}
+@media (prefers-reduced-motion:no-preference){
+  .lv-stamp-goal{animation:lvStampG .5s cubic-bezier(.2,1.4,.4,1) both}
+  .lv-stamp-result{animation:lvStampR .55s .15s cubic-bezier(.2,1.4,.4,1) both}
+}
+@keyframes lvStampG{0%{opacity:0;transform:rotate(-30deg) scale(2)}100%{opacity:1;transform:rotate(-14deg) scale(1)}}
+@keyframes lvStampR{0%{opacity:0;transform:rotate(-28deg) scale(2.2)}100%{opacity:1;transform:rotate(-12deg) scale(1)}}
+/* 收合說明（2026-10-19）：限制／注意事項／設計理由收成一行摘要，點開才看全文；安全紅線不要放進來 */
+details.lv-fold>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;min-height:44px;font-weight:700;color:inherit}
+details.lv-fold>summary::-webkit-details-marker{display:none}
+details.lv-fold>summary>span{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+details.lv-fold>summary small{font-weight:400;color:var(--lv-muted)}
+details.lv-fold>summary::after{content:"";flex:none;width:8px;height:8px;margin:0 4px 4px 0;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);opacity:.55}
+details.lv-fold[open]>summary::after{transform:rotate(-135deg);margin-bottom:-4px}
+details.lv-fold>.lv-fold-body{margin-top:6px}

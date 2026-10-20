@@ -1,0 +1,14 @@
+/* 由 packages/lively/sync_lively.py 產生，請勿手改（改 apps.json 再重跑）。
+   918_english-phrases｜主題色相來源 #1F6BB5｜engine=phrases｜level=mid */
+:root{--lv-engine:phrases;--lv-level:mid}
+html:not([data-theme="dark"]),html:not([data-theme="dark"]) body{
+  --lv-btn:#74AEE7;--lv-btn-d:#438BD0;--lv-ink:#0E3962;--lv-acc:#1F6AB3;
+  --lv-soft:#E4F0FB;--lv-soft2:#C7DCF0;
+}
+html[data-theme="dark"],html[data-theme="dark"] body{
+  --lv-btn:#74AEE7;--lv-btn-d:#438BD0;--lv-ink:#0E3962;--lv-acc:#62A4E4;
+  --lv-soft:#253341;--lv-soft2:#374D62;
+}
+@media (prefers-color-scheme:dark){html:not([data-theme]),html:not([data-theme]) body{
+  --lv-acc:#62A4E4;--lv-soft:#253341;--lv-soft2:#374D62;
+}}

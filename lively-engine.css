@@ -1,0 +1,105 @@
+/* 活潑層 engine：phrases（918 英語片語）
+   來源：packages/lively/engines/phrases.css → App 的 lively-engine.css
+   作業簿版（2026-10-19）：米白方格紙、按鈕中淺色底＋深色字、線條圖示、片語卡與短語選項在四線格上、一輪結果紅筆圈章。
+   App 沒有深色模式 → phrases.js 固定 data-theme=light。兩個全螢幕小遊戲（.hoop-*／.df-*）不碰。 */
+
+html:root:root,html body{
+  --bg:var(--lv-paper); --card:var(--lv-card); --line:var(--lv-line); --ink:var(--lv-text); --muted:var(--lv-muted);
+  --blue:var(--lv-acc); --blue2:var(--lv-soft2); --grad:var(--lv-btn); --soft:var(--lv-soft);
+  --ok:var(--lv-ok); --bad:var(--lv-no); --sh:0 0 0 1.5px var(--lv-line); --sh2:0 0 0 1.5px var(--lv-line),0 4px 0 var(--lv-line);
+}
+html,html body,#app{background-color:var(--lv-paper)}
+#app{background:transparent}
+
+/* 數字用圓體 */
+.statbig,.ring>span b,.gx-prog .gx-s b,.opt .lab{font-family:"LvNum",-apple-system,"Segoe UI",system-ui,"PingFang TC","Microsoft JhengHei",sans-serif}
+
+/* ---------- 頁首：淡底（核心）＋返回鍵、身分膠囊 ---------- */
+html .rl-appbar .rl-sub{color:var(--lv-muted)}
+.topbar .backbtn{width:44px;min-width:44px;height:44px;border-radius:13px;background:var(--lv-card);color:var(--lv-text);display:inline-flex!important;align-items:center;justify-content:center;
+  box-shadow:0 0 0 1.5px var(--lv-line),0 3px 0 var(--lv-line)}
+.topbar .backbtn[style*="none"]{display:none!important}
+.topbar .backbtn .lv-line{width:22px;height:22px}
+.topbar .who{background:var(--lv-card);color:var(--lv-text);box-shadow:0 0 0 1.5px var(--lv-line);min-height:36px;display:inline-flex;align-items:center;white-space:nowrap}
+
+/* ---------- 卡片、首頁 ---------- */
+.card{border:0;box-shadow:0 0 0 1.5px var(--lv-line)}
+#view > .card[style*="--grad"]{background:var(--lv-btn)!important;color:var(--lv-ink)!important;box-shadow:0 5px 0 var(--lv-btn-d)!important}
+#view > .card[style*="--grad"] button{background:color-mix(in srgb,#fff 55%,transparent)!important;color:var(--lv-ink)!important}
+.ava{background:var(--lv-sun-soft)}
+.skill,.tile{border:0;box-shadow:var(--sh2)}
+.skill[style*="background"],.tile[style*="background"]{background:var(--lv-card)!important}
+.skill .t[style*="color"]{color:var(--lv-acc)!important}
+.skill:active,.tile:active{transform:translateY(3px);box-shadow:0 0 0 1.5px var(--lv-line),0 1px 0 var(--lv-line)}
+.ring{background:conic-gradient(var(--lv-btn) calc(var(--p,0)*3.6deg),var(--lv-line) 0)}
+.ring>span{background:var(--lv-card)}
+.tile .ico{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:var(--lv-soft);color:var(--lv-acc);font-size:26px}
+.tile .ico .lv-line{width:28px;height:28px}
+.mrow,.unitcard,.profile,.row{border:0;box-shadow:var(--sh2)}
+.unitcard[style*="background"]{box-shadow:0 0 0 1.5px var(--lv-line)}
+.mrow .mi,.unitcard .mi{background:var(--lv-soft)!important;color:var(--lv-acc);border-radius:14px}
+.unitcard .mi{width:42px;height:42px}
+.mrow .mi .lv-line,.unitcard .mi .lv-line{width:23px;height:23px}
+.mrow:active,.unitcard:active,.profile:active{transform:translateY(3px);box-shadow:0 0 0 1.5px var(--lv-line),0 1px 0 var(--lv-line)}
+[data-tint="sun"]{background:var(--lv-sun-soft)!important;color:var(--lv-sun)!important}
+[data-tint="coral"]{background:var(--lv-no-soft)!important;color:var(--lv-no)!important}
+[data-tint="green"]{background:var(--lv-ok-soft)!important;color:var(--lv-ok)!important}
+.bar{background:var(--lv-line)}
+.bar>i{background:var(--lv-btn)}
+.dot.ing{background:var(--lv-btn)}.dot.done{background:var(--lv-ok-line)}.dot.new{background:var(--lv-line)}
+.pill{background:var(--lv-soft);color:var(--lv-acc)}
+.gx-prog{border:0;box-shadow:0 0 0 1.5px var(--lv-line)}
+.gx-prog .gx-s b{color:var(--lv-acc)}
+.uf-search-entry{border:0;box-shadow:0 0 0 1.5px var(--lv-line),0 3px 0 var(--lv-line)}
+.uf-search-entry svg{color:var(--lv-acc)}
+.uf-res{border:0;box-shadow:0 0 0 1.5px var(--lv-line)}
+.uf-res .w{font-family:"LvWord","LvNum",-apple-system,"Segoe UI",system-ui,sans-serif}
+.uf-res .acts button,.uf-top button{border:0;background:var(--lv-card);color:var(--lv-text);box-shadow:0 0 0 1.5px var(--lv-line),0 3px 0 var(--lv-line)}
+.seg button{border:0;background:var(--lv-card);box-shadow:0 0 0 1.5px var(--lv-line),0 3px 0 var(--lv-line)}
+.seg button.on{background:var(--lv-btn);color:var(--lv-ink);box-shadow:0 3px 0 var(--lv-btn-d)}
+
+/* ---------- 按鈕：中淺色底＋深色字、有厚度（灌籃／三角洲的入口按鈕原本寫死底色，也收進色系） ---------- */
+#view .btn{background:var(--lv-btn);color:var(--lv-ink);border-radius:16px;box-shadow:0 4px 0 var(--lv-btn-d);transition:transform .08s,box-shadow .08s}
+#view .btn[style*="background"]{background:var(--lv-btn)!important;color:var(--lv-ink)!important}
+#view .btn:not([disabled]):active{transform:translateY(3px);box-shadow:0 1px 0 var(--lv-btn-d)}
+#view .btn.sec{background:var(--lv-soft);color:var(--lv-acc);box-shadow:0 4px 0 var(--lv-soft2)}
+#view .btn.ghost{background:var(--lv-card);color:var(--lv-text);border:0;box-shadow:0 0 0 1.5px var(--lv-line),0 4px 0 var(--lv-line)}
+#view .btn .lv-line-inline{width:1.1em;height:1.1em}
+
+/* ---------- 作答 ---------- */
+.stem{font-size:18px}
+.opt{border:0;border-radius:16px;box-shadow:0 0 0 1.5px var(--lv-line),0 3px 0 var(--lv-line);display:flex;align-items:center;gap:0}
+.opt:not([disabled]):active{transform:translateY(3px);box-shadow:0 0 0 1.5px var(--lv-line),0 0 0 var(--lv-line)}
+.opt .lab{flex:0 0 30px;width:30px;height:30px;border-radius:10px;background:var(--lv-soft);color:var(--lv-acc)}
+.opt .lv-optx{flex:1}
+.opt .lv-optx.lv-four{flex:0 1 auto;font-size:1.22em;margin-left:.2em}
+.opt.ok{background:var(--lv-ok-soft);color:var(--lv-ok);box-shadow:0 0 0 2px var(--lv-ok-line),0 3px 0 var(--lv-ok-line)}
+.opt.ok .lab{background:var(--lv-ok-k);color:#fff}
+.opt.bad{background:var(--lv-no-soft);color:var(--lv-no);box-shadow:0 0 0 2px var(--lv-no-line),0 3px 0 var(--lv-no-line)}
+.opt.bad .lab{background:var(--lv-no-k);color:#fff}
+.opt > b{margin-left:auto;padding-left:8px}
+.expl{background:var(--lv-sun-soft);border:0;box-shadow:0 0 0 1.5px var(--lv-line)}
+/* 片語卡：正面片語站在四線格上 */
+.flash{border:0;border-radius:24px;box-shadow:0 0 0 1.5px var(--lv-line),0 5px 0 var(--lv-line)}
+.flash .w.lv-four{font-size:34px;letter-spacing:.01em}
+.flash .z{color:var(--lv-acc)}
+.gradeRow button{color:var(--lv-text)!important;box-shadow:0 4px 0 var(--lv-line)}
+.gradeRow button:nth-child(1){background:var(--lv-no-soft)!important;color:var(--lv-no)!important;box-shadow:0 0 0 1.5px var(--lv-no-line),0 4px 0 var(--lv-no-line)}
+.gradeRow button:nth-child(2){background:var(--lv-ok-soft)!important;color:var(--lv-ok)!important;box-shadow:0 0 0 1.5px var(--lv-ok-line),0 4px 0 var(--lv-ok-line)}
+.gradeRow button:nth-child(3){background:var(--lv-soft)!important;color:var(--lv-acc)!important;box-shadow:0 0 0 1.5px var(--lv-soft2),0 4px 0 var(--lv-soft2)}
+.gradeRow button:active{transform:translateY(3px)}
+
+/* ---------- 一輪結果：Fluent 插圖＋紅筆圈章（宿主要 relative） ---------- */
+#view > .center{position:relative}
+#view > .center > div:first-child .lv-ico{width:64px;height:64px;margin:0 auto}
+.statbig{color:var(--lv-acc)}
+
+/* ---------- 底部選單：線條圖示，選中那格淡色底 ---------- */
+.botnav{background:var(--lv-card);border-top-color:var(--lv-line)}
+.botnav button{min-height:56px}
+.botnav button i{display:flex;align-items:center;justify-content:center;width:48px;height:30px;border-radius:15px;transition:background .2s}
+.botnav button i .lv-line{width:23px;height:23px}
+.botnav button.on{color:var(--lv-acc)}
+.botnav button.on i{background:var(--lv-soft);transform:none}
+.botnav button.on::before{background:var(--lv-btn)}
+@media (prefers-reduced-motion:no-preference){.botnav button.on i .lv-line{animation:lvPop .4s cubic-bezier(.3,1.6,.5,1)}}
